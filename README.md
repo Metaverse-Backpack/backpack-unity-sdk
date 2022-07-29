@@ -3,10 +3,15 @@
 ### Configuration
 
 ```csharp
-Bkpk.ClientID = "XXX";
-Bkpk.ResponseType = "token|code";
-Bkpk.BkpkUrl = "https://bkpk.io";
-Bkpk.BkpkApiUri = "https://api.bkpk.io";
+class MyClass : MonoBehaviour {
+  Init()
+  {
+    Bkpk.ClientID = "XXX";
+    Bkpk.ResponseType = "token|code";
+    Bkpk.BkpkUrl = "https://bkpk.io";
+    Bkpk.BkpkApiUri = "https://api.bkpk.io";
+  }
+}
 ```
 
 ### Native Authentication
