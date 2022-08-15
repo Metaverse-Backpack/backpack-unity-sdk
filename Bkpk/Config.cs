@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    public enum ResponseTypeOption {
+    public enum ResponseTypeOption
+    {
         token,
         code
     }
@@ -16,7 +17,7 @@ namespace Bkpk
         private static string _clientId = null;
         private static ResponseTypeOption _responseType = "token";
         private static string _bkpkUrl = "https://bkpk.io";
-        private state string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
+        private static string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
 
         public string BkpkApiUri
         {
@@ -38,10 +39,11 @@ namespace Bkpk
 
         public string ClientID
         {
-            get {
+            get
+            {
                 if (_clientId == null)
                     throw new BkpkException(BkpkErrors.NO_CLIENT_ID);
-                
+
                 return _clientId;
             }
             set { _clientId = value; }
@@ -50,7 +52,7 @@ namespace Bkpk
         public ResponseTypeOption ResponseType
         {
             get { return _responseType; }
-            set{ _responseType = value; }
+            set { _responseType = value; }
         }
     }
 }

@@ -5,11 +5,8 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    public partial static class Avatars
+    public static partial class Avatars
     {
-        LoadAvatar(Avatar avatar)
-        {
-            
-        }
+        LoadAvatar(Avatar avatar) { }
     }
 }

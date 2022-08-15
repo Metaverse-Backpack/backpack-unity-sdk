@@ -11,10 +11,10 @@ namespace Bkpk
         {
             string url = Config.BkpkApiUri + endpoint;
             UnityWebRequest www = UnityWebRequest.Get(url);
-            
+
             if (authenticated)
                 www.SetRequestHeader("Authorization", "Bearer " + Auth.AccessToken);
-            
+
             www.SendWebRequest();
             while (!www.isDone)
             {

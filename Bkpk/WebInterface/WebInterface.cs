@@ -7,7 +7,14 @@ namespace Bkpk
     public class BkpkWebInterface : MonoBehaviour
     {
         [DllImport("__Internal")]
-        public static extern void InitializeSDK(string clientId, ResponseTypeOption responseType, string url, string apiUrl, string scriptUrl, string state);
+        public static extern void InitializeSDK(
+            string clientId,
+            ResponseTypeOption responseType,
+            string url,
+            string apiUrl,
+            string scriptUrl,
+            string state
+        );
 
         OnAccessToken(string accessToken)
         {

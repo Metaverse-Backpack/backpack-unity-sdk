@@ -10,8 +10,10 @@ namespace Bkpk
         // URL sanity check
         public static bool IsValidUrl(string url)
         {
-            if (string.IsNullOrEmpty(url)) return false;
-            if (url.StartsWith("http://") || url.StartsWith("https://")) return true;
+            if (string.IsNullOrEmpty(url))
+                return false;
+            if (url.StartsWith("http://") || url.StartsWith("https://"))
+                return true;
             return false;
         }
 
@@ -34,10 +36,12 @@ namespace Bkpk
             }
 
             // Check for errors
-            if (request.result != UnityWebRequest.Result.Success ||
-                request.result == UnityWebRequest.Result.ConnectionError ||
-                request.result == UnityWebRequest.Result.ProtocolError ||
-                request.result == UnityWebRequest.Result.DataProcessingError)
+            if (
+                request.result != UnityWebRequest.Result.Success
+                || request.result == UnityWebRequest.Result.ConnectionError
+                || request.result == UnityWebRequest.Result.ProtocolError
+                || request.result == UnityWebRequest.Result.DataProcessingError
+            )
             {
                 throw new BkpkException(BkpkErrors.DOWNLOAD_FAILED);
             }

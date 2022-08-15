@@ -16,10 +16,11 @@ namespace Bkpk
 
         public static string AccessToken
         {
-            get {
+            get
+            {
                 if (_accessToken == null)
                     throw new BkpkException(BkpkErrors.NOT_AUTHENTICATED);
-                
+
                 return _accessToken;
             }
             set { _accessToken = value; }
@@ -50,19 +51,19 @@ namespace Bkpk
             _state = CreateState();
             ActivationCodeRequest body = new ActivationCodeRequest
             {
-                clientId = Config.ClientID;
-                responseType = Config.ResponseType;
-                scopes = ["avatars:read", "backpacks:read"];
-                state = _state;
+                clientId = Config.ClientID,
+                responseType = Config.ResponseType,
+                scopes = new string[] { "avatars:read", "backpacks:read" },
+                state = _state,
             };
 
             ActivationCodeResponse response = await Client.Post<ActivationCodeResponse>("/oauth/activation-code", body);
-            
+
             // Start checking to see if authorization code has been linked and authorized
             StartCoroutine(CheckAuthorizationCodeLoop());
 
             _code = response.code;
-            
+
             return _code;
         }
 
@@ -84,14 +85,14 @@ namespace Bkpk
             {
                 _authorized = true;
                 AccessToken = response.token;
-            } 
+            }
             else if (Config.ResponseType == "code" && response.code != null)
             {
                 _authorized = true;
                 AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
                 {
-                    code = response.code;
-                    state = _state;
+                    code = response.code,
+                    state = _state
                 };
                 _onAuthorizationCode(authorizationCodeResponse);
             }

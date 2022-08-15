@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    public partial static class Avatars
+    public static partial class Avatars
     {
         public static async PaginationResponse<AvatarMetadata> GetAvatars(int page = 1)
         {
-           PaginationResponse<AvatarMetadata> response = await Client.Get("/avatars?page=" + page);
-           return response;
+            PaginationResponse<AvatarMetadata> response = await Client.Get("/avatars?page=" + page);
+            return response;
         }
 
         public static async AvatarMetadata GetDefaultAvatar()
