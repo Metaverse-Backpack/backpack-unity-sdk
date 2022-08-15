@@ -7,15 +7,15 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        public static async PaginationResponse<AvatarMetadata> GetAvatars(int page = 1)
+        public static async PaginationResponse<AvatarInfo> GetAvatars(int page = 1)
         {
-            PaginationResponse<AvatarMetadata> response = await Client.Get("/avatars?page=" + page);
+            PaginationResponse<AvatarInfo> response = await Client.Get("/avatars?page=" + page);
             return response;
         }
 
-        public static async AvatarMetadata GetDefaultAvatar()
+        public static async AvatarInfo GetDefaultAvatar()
         {
-            PaginationResponse<AvatarMetadata> response = await GetAvatars();
+            PaginationResponse<AvatarInfo> response = await GetAvatars();
             if (response.results.Length == 0)
                 throw new BkpkException(BkpkErrors.NO_AVATARS);
             return response.results[0];
@@ -23,7 +23,7 @@ namespace Bkpk
     }
 
     [System.Serializable]
-    public class AvatarMetadata
+    public class AvatarInfo
     {
         public string id;
         public string uri;

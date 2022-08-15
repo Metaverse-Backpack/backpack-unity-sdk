@@ -1,0 +1,54 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using VRM;
+using UniVRM10;
+
+namespace Bkpk
+{
+    // Parent class for all partner modules
+    protected class VrmLoaderModule : AvatarLoaderModule
+    {
+        public VrmLoaderModule()
+        {
+            ModuleName = "vrm";
+        }
+
+        // Spawns the avatar into the input gameobject
+        public virtual BkpkAvatar SpawnAvatar(byte[] avatarData)
+        {
+            BkpkAvatar avatar = new BkpkAvatar();
+
+            // GLB data
+            GltfData vrm_glb_data = HandleGLB(avatarData);
+            if (vrm_glb_data == null)
+                return null;
+
+            // VRM data
+            VRMData vrm_data = new VRMData(vrm_glb_data);
+
+            // Import VRM
+            using (VRMImporterContext context = new VRMImporterContext(vrm_data))
+            {
+                context.InvertAxis = AxisInverted ? Axes.X : Axes.Z;
+
+                RuntimeGltfInstance instance = context.Load();
+                instance.EnableUpdateWhenOffscreen();
+                instance.ShowMeshes();
+                HandleTextures(instance.Textures);
+                avatar.AvatarObject = instance.Root;
+
+                avatar.Animator = instance.GetComponent<Animator>();
+                Avatar anim_avatar = HandleRigAvatar();
+                if (anim_avatar != null)
+                    avatar.Animator.avatar = anim_avatar;
+                avatar.Animator.runtimeAnimatorController = Core.AvatarController;
+            }
+
+            vrm_glb_data.Dispose();
+
+            return avatar;
+        }
+    }
+}

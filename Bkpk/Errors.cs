@@ -19,7 +19,7 @@ namespace Bkpk
 
     public static class BkpkErrors
     {
-        // Internal Avatar Connect
+        // Internal
         public static string INVALID_URL = "Invalid Avatar URL provided";
         public static string DOWNLOAD_FAILED = "Avatar file download failed";
 

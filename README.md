@@ -6,8 +6,11 @@
 class MyClass : MonoBehaviour {
   Init()
   {
+    // Required
     Bkpk.ClientID = "XXX";
     Bkpk.ResponseType = "token|code";
+    
+    // Optional
     Bkpk.BkpkUrl = "https://bkpk.io";
     Bkpk.BkpkApiUri = "https://api.bkpk.io";
     Bkpk.WebSdkUrl = "https://jsdelivr.com/...";
@@ -51,9 +54,9 @@ class MyClass : MonoBehaviour {
 ### Manage Avatars
 
 ```csharp
-PaginatedResponse<AvatarMetadata> avatars = Bkpk.GetAvatars(1);
+PaginatedResponse<AvatarInfo> avatars = Bkpk.GetAvatars(1);
 
-AvatarMetadata avatarMetadata = Bkpk.GetDefaultAvatar();
+AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
 
-Avatar avatar = Bkpk.Avatars.LoadAvatar(avatarMetadata);
+Avatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
 ```
