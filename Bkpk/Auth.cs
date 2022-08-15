@@ -30,7 +30,7 @@ namespace Bkpk
         {
             _onAuthorizationCode = onAuthorizationCode;
             _state = CreateState();
-            BkpkWebInterface.InitializeSDK(Config.ClientId, Config.ResponseType, Config.BkpkUrl, _state);
+            BkpkWebInterface.InitializeSDK(Config.ClientId, Config.ResponseType, Config.BkpkUrl, Config.WebSdkUrl, _state);
         }
 
         protected static async void OnAuthorizationCode(string code)

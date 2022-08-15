@@ -15,6 +15,10 @@ namespace Bkpk
 
     public static class BkpkErrors
     {
+        // Internal Avatar Connect
+        public static string INVALID_URL = "Invalid Avatar URL provided";
+        public static string DOWNLOAD_FAILED = "Avatar file download failed";
+
         // Configuration Errors
         public static string NO_CLIENT_ID = "You must provide your Client ID to use this SDK";
 

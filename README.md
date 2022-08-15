@@ -10,6 +10,7 @@ class MyClass : MonoBehaviour {
     Bkpk.ResponseType = "token|code";
     Bkpk.BkpkUrl = "https://bkpk.io";
     Bkpk.BkpkApiUri = "https://api.bkpk.io";
+    Bkpk.WebSdkUrl = "https://jsdelivr.com/...";
   }
 }
 ```

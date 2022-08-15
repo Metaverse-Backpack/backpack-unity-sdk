@@ -16,6 +16,7 @@ namespace Bkpk
         private static string _clientId = null;
         private static ResponseTypeOption _responseType = "token";
         private static string _bkpkUrl = "https://bkpk.io";
+        private state string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
 
         public string BkpkApiUri
         {
@@ -27,6 +28,12 @@ namespace Bkpk
         {
             get { return _bkpkUrl; }
             set { _bkpkUrl = value; }
+        }
+
+        public string WebSdkUrl
+        {
+            get { return _WebSdkUrl; }
+            set { _WebSdkUrl = value; }
         }
 
         public string ClientID

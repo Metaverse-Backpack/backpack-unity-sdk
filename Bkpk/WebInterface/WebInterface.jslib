@@ -1,19 +1,18 @@
 mergeInto(LibraryManager.library, {
-    InitializeSDK: function (clientId, responseType, url, state) {
+    InitializeSDK: function (clientId, responseType, url, apiUrl, scriptUrl, state) {
         if (!window.unityInstance) {
           console.error("Please set `window.unityInstance` to your Unity instance before using the Bkpk SDK")
           return
         }
         const script = document.createElement('script')
-        script.src = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js"
+        script.src = scriptUrl
         
         script.onload = async () => {
-          const bkpk = new Bkpk({ clientId, url })
+          const bkpk = new Bkpk(clientId, { url, apiUrl })
           try {
-            const result = await bkpk.authorize({
+            const result = await bkpk.authorize(responseType, {
               state,
               scopes: ['avatars:read']
-              responseType,
             })
             if (responseType === "token") {
               window.unityInstance.SendMessage("BkpkWebInterface", "OnAccessToken", result.token)

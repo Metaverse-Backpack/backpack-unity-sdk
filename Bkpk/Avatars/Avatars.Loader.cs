@@ -9,7 +9,7 @@ namespace Bkpk
     {
         LoadAvatar(Avatar avatar)
         {
-
+            
         }
     }
 }
