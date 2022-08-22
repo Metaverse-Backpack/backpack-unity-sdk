@@ -20,7 +20,7 @@ namespace Bkpk
             while (!www.isDone)
             {
                 // waiting for response
-                Task.Yield();
+                await Task.Yield();
             }
 
             return JsonUtility.FromJson<T>(www.downloadHandler.text);
@@ -37,7 +37,7 @@ namespace Bkpk
             www.SetRequestHeader("Content-Type", "application/json");
             while (!www.isDone)
             {
-                Task.Yield();
+                await Task.Yield();
             }
 
             return JsonUtility.FromJson<T>(www.downloadHandler.text);

@@ -17,7 +17,7 @@ namespace Bkpk
         }
 
         // Spawns the avatar into the input gameobject
-        public virtual BkpkAvatar SpawnAvatar(byte[] avatarData)
+        public override BkpkAvatar SpawnAvatar(byte[] avatarData)
         {
             BkpkAvatar avatar = new BkpkAvatar();
 

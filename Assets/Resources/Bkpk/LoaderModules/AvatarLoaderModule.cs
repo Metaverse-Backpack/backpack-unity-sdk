@@ -29,6 +29,7 @@ namespace Bkpk
             ProcessMetadata(avatarInfo.metadata);
 
             BkpkAvatar avatar = SpawnAvatar((byte[])result);
+            Debug.Log(avatar);
 
             if (avatarObject != null)
                 avatar.AvatarObject.transform.SetParent(avatarObject.transform);
