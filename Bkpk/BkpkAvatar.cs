@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Bkpk
 {
     // Base class for module avatar
-    protected class BkpkAvatar
+    public class BkpkAvatar
     {
         // Avatar object
         public GameObject AvatarObject;

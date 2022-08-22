@@ -2,12 +2,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using VRM;
+using UniVRM10;
 using UniGLTF;
 
 namespace Bkpk
 {
     // Parent class for all partner modules
-    protected class GlbLoaderModule : AvatarLoaderModule
+    public class GlbLoaderModule : AvatarLoaderModule
     {
         public GlbLoaderModule()
         {
@@ -39,7 +41,8 @@ namespace Bkpk
                 Avatar anim_avatar = HandleRigAvatar();
                 if (anim_avatar != null)
                     avatar.Animator.avatar = anim_avatar;
-                avatar.Animator.runtimeAnimatorController = Core.AvatarController;
+                // TODO: Add this animator controller back in
+                // avatar.Animator.runtimeAnimatorController = Core.AvatarController;
             }
 
             glb_data.Dispose();

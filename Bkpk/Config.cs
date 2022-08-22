@@ -5,39 +5,39 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    public enum ResponseTypeOption
+    public static class ResponseTypes
     {
-        token,
-        code
+        public const string Token = "token";
+        public const string Code = "code";
     }
 
     public static class Config
     {
-        private static string _bkpkApiUri = "https://api.bkpk.io";
-        private static string _clientId = null;
-        private static ResponseTypeOption _responseType = "token";
-        private static string _bkpkUrl = "https://bkpk.io";
-        private static string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
+        static string _bkpkApiUri = "https://api.bkpk.io";
+        static string _clientId = null;
+        static string _responseType = ResponseTypes.Token;
+        static string _bkpkUrl = "https://bkpk.io";
+        static string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
 
-        public string BkpkApiUri
+        public static string BkpkApiUri
         {
             get { return _bkpkApiUri; }
             set { _bkpkApiUri = value; }
         }
 
-        public string BkpkUrl
+        public static string BkpkUrl
         {
             get { return _bkpkUrl; }
             set { _bkpkUrl = value; }
         }
 
-        public string WebSdkUrl
+        public static string WebSdkUrl
         {
             get { return _WebSdkUrl; }
             set { _WebSdkUrl = value; }
         }
 
-        public string ClientID
+        public static string ClientID
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Bkpk
             set { _clientId = value; }
         }
 
-        public ResponseTypeOption ResponseType
+        public static string ResponseType
         {
             get { return _responseType; }
             set { _responseType = value; }

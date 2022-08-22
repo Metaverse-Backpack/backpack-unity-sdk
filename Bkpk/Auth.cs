@@ -5,16 +5,41 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    public abstract class Auth
+    public  class Auth : MonoBehaviour
     {
-        private Action<AuthorizationCodeResponse> _onCodeAuthorized = null;
-        private static string _accessToken = null;
-        private static Random _random = new Random();
-        private static string _state = null;
-        private static string _code = null;
-        private static bool _authorized = false;
+         System.Action<AuthorizationCodeResponse> _onAuthorizationCode = null;
+         string _accessToken = null;
+         string _state = null;
+         string _code = null;
+         bool _authorized = false;
 
-        public static string AccessToken
+        private static Auth instance;
+
+        public static Auth Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Auth();
+                }
+                return instance;
+            }
+        }
+
+
+        private Auth() {
+            string state = "";
+            string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            for (int i = 0; i < 16; i++)
+            {
+                state += characters[Random.Range(0, characters.Length)];
+            }
+            _state = state;
+        }
+
+
+        public string AccessToken
         {
             get
             {
@@ -27,14 +52,13 @@ namespace Bkpk
         }
 
 #if UNITY_WEBGL
-        public static async void RequestAuthorization(Action<AuthorizationCodeResponse> onAuthorizationCode)
+        public  async void RequestAuthorization(System.Action<AuthorizationCodeResponse> onAuthorizationCode)
         {
             _onAuthorizationCode = onAuthorizationCode;
-            _state = CreateState();
             BkpkWebInterface.InitializeSDK(Config.ClientId, Config.ResponseType, Config.BkpkUrl, Config.WebSdkUrl, _state);
         }
 
-        protected static async void OnAuthorizationCode(string code)
+        public  async void OnAuthorizationCode(string code)
         {
             AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
             {
@@ -45,10 +69,9 @@ namespace Bkpk
         }
 #endif
 
-        public static async Task<string> GetActivationCode(Action<AuthorizationCodeResponse> onAuthorizationCode)
+        public async Task<string> GetActivationCode(System.Action<AuthorizationCodeResponse> onAuthorizationCode)
         {
             _onAuthorizationCode = onAuthorizationCode;
-            _state = CreateState();
             ActivationCodeRequest body = new ActivationCodeRequest
             {
                 clientId = Config.ClientID,
@@ -67,7 +90,7 @@ namespace Bkpk
             return _code;
         }
 
-        private static IEnumerator CheckAuthorizationCodeLoop()
+        IEnumerator CheckAuthorizationCodeLoop()
         {
             _authorized = false;
             while (_authorized == false)
@@ -78,7 +101,7 @@ namespace Bkpk
             }
         }
 
-        private static async Task CheckAuthorizationCode()
+         async Task CheckAuthorizationCode()
         {
             AuthorizationResponse response = await Client.Get<AuthorizationResponse>("/oauth/authorization?clientId=" + Config.ClientID + "&state=" + _state + "&code=" + _code);
             if (Config.ResponseType == "token" && response.token != null)
@@ -97,15 +120,9 @@ namespace Bkpk
                 _onAuthorizationCode(authorizationCodeResponse);
             }
         }
-
-        private static string CreateState()
-        {
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, 10)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
     }
 
+    [System.Serializable]
     public class AuthorizationCodeResponse
     {
         public string code;
@@ -113,23 +130,23 @@ namespace Bkpk
     }
 
     [System.Serializable]
-    private class ActivationCodeRequest
+    class ActivationCodeRequest
     {
         public string clientId;
-        public ResponseTypeOption responseType;
+        public string responseType;
         public string[] scopes;
         public string state;
     }
 
 
     [System.Serializable]
-    private class ActivationCodeResponse
+    class ActivationCodeResponse
     {
         public string code;
     }
 
     [System.Serializable]
-    private class AuthorizationResponse
+    class AuthorizationResponse
     {
         public string token = null;
         public string code = null;

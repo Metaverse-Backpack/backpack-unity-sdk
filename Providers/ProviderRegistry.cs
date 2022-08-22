@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    protected class ProviderRegistry
+    public class ProviderRegistry
     {
         // Global module registry.
         public AvatarLoaderModule[] GetModules()

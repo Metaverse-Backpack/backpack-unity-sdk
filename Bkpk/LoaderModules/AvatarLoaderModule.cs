@@ -10,14 +10,14 @@ using UniGLTF;
 namespace Bkpk
 {
     // Parent class for all partner modules
-    protected class AvatarLoaderModule
+    public class AvatarLoaderModule
     {
         // Metadata for the module
         public string ModuleName;
         public bool AxisInverted;
         public FilterMode TextureFilterMode = FilterMode.Bilinear;
 
-        public async Task<Avatar> RequestAvatar(
+        public async Task<BkpkAvatar> RequestAvatar(
             AvatarInfo avatarInfo,
             GameObject avatarObject = null
         )
@@ -26,14 +26,13 @@ namespace Bkpk
 
             ProcessMetadata(avatarInfo.metadata);
 
-            BkpkAvatar avatar = SpawnAvatar((byte[])result.OperationResult);
+            BkpkAvatar avatar = SpawnAvatar((byte[])result);
 
             if (avatarObject != null)
                 avatar.AvatarObject.transform.SetParent(avatarObject.transform);
             avatar.AvatarObject.transform.localPosition = Vector3.zero;
             avatar.AvatarObject.transform.localRotation = Quaternion.identity;
 
-            avatar.Activate();
             avatar.AvatarObject.AddComponent<BkpkUpdateFetch>().Avatar = avatar;
 
             return avatar;
@@ -50,7 +49,7 @@ namespace Bkpk
             return null;
         }
 
-        public virtual void ProcessMetadata(JObject metadata)
+        public virtual void ProcessMetadata(string metadata)
         {
             return;
         }

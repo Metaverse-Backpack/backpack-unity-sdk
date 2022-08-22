@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Bkpk
 {
-    protected class MeebitsModule : VrmLoaderModule
+    public class MeebitsModule : VrmLoaderModule
     {
         public MeebitsModule()
         {

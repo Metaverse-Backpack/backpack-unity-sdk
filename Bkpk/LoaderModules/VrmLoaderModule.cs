@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using VRM;
 using UniVRM10;
+using UniGLTF;
 
 namespace Bkpk
 {
     // Parent class for all partner modules
-    protected class VrmLoaderModule : AvatarLoaderModule
+    public class VrmLoaderModule : AvatarLoaderModule
     {
         public VrmLoaderModule()
         {

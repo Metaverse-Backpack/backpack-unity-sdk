@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Bkpk
 {
-    protected class CryptoAvatarsModule : VrmLoaderModule
+    public class CryptoAvatarsModule : VrmLoaderModule
     {
         public CryptoAvatarsModule()
         {

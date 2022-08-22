@@ -1,19 +1,20 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.Collections;
 using System.Threading.Tasks;
 
 namespace Bkpk
 {
-    protected static class Client
+    public static class Client
     {
-        public async Task<T> Get(string endpoint, bool authenticated = false)
+        public static async Task<T> Get<T>(string endpoint, bool authenticated = false)
         {
             string url = Config.BkpkApiUri + endpoint;
             UnityWebRequest www = UnityWebRequest.Get(url);
 
             if (authenticated)
-                www.SetRequestHeader("Authorization", "Bearer " + Auth.AccessToken);
+                www.SetRequestHeader("Authorization", "Bearer " + Auth.Instance.AccessToken);
 
             www.SendWebRequest();
             while (!www.isDone)
@@ -25,10 +26,10 @@ namespace Bkpk
             return JsonUtility.FromJson<T>(www.downloadHandler.text);
         }
 
-        public Task<T> Post(string endpoint, object data)
+        public static async Task<T> Post<T>(string endpoint, object data)
         {
             string url = Config.BkpkApiUri + endpoint;
-            UnityWebRequest www = UnityWebRequest.Post(url);
+            UnityWebRequest www = UnityWebRequest.Post(url, "");
             string json = JsonUtility.ToJson(data);
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
             www.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);

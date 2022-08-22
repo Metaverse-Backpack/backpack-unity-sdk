@@ -9,7 +9,7 @@ namespace Bkpk
         [DllImport("__Internal")]
         public static extern void InitializeSDK(
             string clientId,
-            ResponseTypeOption responseType,
+            string responseType,
             string url,
             string apiUrl,
             string scriptUrl,
@@ -18,7 +18,7 @@ namespace Bkpk
 
         OnAccessToken(string accessToken)
         {
-            Auth.AccessToken = accessToken;
+            Auth.Instance.AccessToken = accessToken;
         }
 
         OnAuthorizationCode(string authorizationCode)

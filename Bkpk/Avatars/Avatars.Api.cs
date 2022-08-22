@@ -7,13 +7,15 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        public static async PaginationResponse<AvatarInfo> GetAvatars(int page = 1)
+        public static async Task<PaginationResponse<AvatarInfo>> GetAvatars(int page = 1)
         {
-            PaginationResponse<AvatarInfo> response = await Client.Get("/avatars?page=" + page);
+            PaginationResponse<AvatarInfo> response = await Client.Get<
+                PaginationResponse<AvatarInfo>
+            >("/avatars?page=" + page);
             return response;
         }
 
-        public static async AvatarInfo GetDefaultAvatar()
+        public static async Task<AvatarInfo> GetDefaultAvatar()
         {
             PaginationResponse<AvatarInfo> response = await GetAvatars();
             if (response.results.Length == 0)
@@ -37,8 +39,8 @@ namespace Bkpk
     public class PaginationResponse<T>
     {
         public T[] results;
-        public number page;
-        public number pageCount;
-        public number total;
+        public int page;
+        public int pageCount;
+        public int total;
     }
 }

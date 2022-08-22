@@ -7,20 +7,15 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        private ProviderRegistry Providers;
+        public static ProviderRegistry Providers = new ProviderRegistry();
 
-        Avatars()
-        {
-            Providers = new ProviderRegistry();
-        }
-
-        private AvatarLoaderModule[] GetFormatRegistry()
+        static AvatarLoaderModule[] GetFormatRegistry()
         {
             return new AvatarLoaderModule[] { new GlbLoaderModule(), new VrmLoaderModule() };
         }
 
         // Get partner module by name, returns null if not found.
-        private AvatarLoaderModule GetModule(AvatarInfo avatarInfo)
+        static AvatarLoaderModule GetModule(AvatarInfo avatarInfo)
         {
             AvatarLoaderModule[] providerModules = Providers.GetModules();
             foreach (AvatarLoaderModule module in providerModules)
@@ -39,13 +34,18 @@ namespace Bkpk
                     return module;
                 }
             }
+
+            throw new BkpkException(BkpkErrors.NO_MODULE_FOUND);
         }
 
-        public LoadAvatar(AvatarInfo avatarInfo, GameObject targetGameObject = null)
+        public static async Task<BkpkAvatar> LoadAvatar(
+            AvatarInfo avatarInfo,
+            GameObject targetGameObject = null
+        )
         {
             AvatarLoaderModule module = GetModule(avatarInfo);
 
-            module.RequestAvatar(avatarInfo, targetGameObject);
+            return await module.RequestAvatar(avatarInfo, targetGameObject);
         }
     }
 }

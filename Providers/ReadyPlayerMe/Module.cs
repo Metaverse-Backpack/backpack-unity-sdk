@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Bkpk
 {
-    protected class ReadyPlayerMeModule : GlbLoaderModule
+    public class ReadyPlayerMeModule : GlbLoaderModule
     {
         ReadyPlayerMeMetadata AvatarMetadata;
 
