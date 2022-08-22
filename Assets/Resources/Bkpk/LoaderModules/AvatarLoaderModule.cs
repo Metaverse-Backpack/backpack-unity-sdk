@@ -16,6 +16,8 @@ namespace Bkpk
         public string ModuleName;
         public bool AxisInverted;
         public FilterMode TextureFilterMode = FilterMode.Bilinear;
+        public static RuntimeAnimatorController AvatarController =
+            Resources.Load("Bkpk/AnimationFiles/GenericCharacter") as RuntimeAnimatorController;
 
         public async Task<BkpkAvatar> RequestAvatar(
             AvatarInfo avatarInfo,

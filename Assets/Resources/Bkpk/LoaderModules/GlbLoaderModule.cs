@@ -41,8 +41,7 @@ namespace Bkpk
                 Avatar anim_avatar = HandleRigAvatar();
                 if (anim_avatar != null)
                     avatar.Animator.avatar = anim_avatar;
-                // TODO: Add this animator controller back in
-                // avatar.Animator.runtimeAnimatorController = Core.AvatarController;
+                avatar.Animator.runtimeAnimatorController = AvatarController;
             }
 
             glb_data.Dispose();

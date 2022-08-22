@@ -8,7 +8,7 @@ namespace Bkpk
 
         public void FixedUpdate()
         {
-            BkpkAvatar.Tick();
+            Avatar.Tick();
         }
     }
 }
