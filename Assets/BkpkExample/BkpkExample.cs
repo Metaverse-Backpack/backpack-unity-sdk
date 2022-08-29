@@ -14,6 +14,17 @@ namespace BkpkExample
 
         async void Test()
         {
+            Bkpk.AvatarInfo cryptoAvatars = new Bkpk.AvatarInfo
+            {
+                id = "XXX",
+                uri =
+                    "https://alvevault.s3.eu-central-1.amazonaws.com/CryptoAvatars_Orion_CryptoAvatars_Orion.vrm",
+                format = "vrm",
+                type = "humanoid",
+                provider = "crypto-avatars",
+                metadata = ""
+            };
+
             Bkpk.AvatarInfo meebits = new Bkpk.AvatarInfo
             {
                 id = "XXX",
@@ -38,7 +49,9 @@ namespace BkpkExample
 
             Bkpk.BkpkAvatar meebitsAvatar = await Bkpk.Avatars.LoadAvatar(meebits);
             Bkpk.BkpkAvatar rpmAvatar = await Bkpk.Avatars.LoadAvatar(readyplayerme);
+            Bkpk.BkpkAvatar caAvatar = await Bkpk.Avatars.LoadAvatar(cryptoAvatars);
             rpmAvatar.AvatarObject.transform.localPosition = new Vector3(2, 0, 0);
+            caAvatar.AvatarObject.transform.localPosition = new Vector3(-2, 0, 0);
         }
     }
 }
