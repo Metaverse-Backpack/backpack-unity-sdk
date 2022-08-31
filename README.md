@@ -56,7 +56,7 @@ class MyClass : MonoBehaviour {
 ```csharp
 PaginatedResponse<AvatarInfo> avatars = Bkpk.GetAvatars(1);
 
-AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
+Bkpk.AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
 
-Avatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
+Bkpk.BkpkAvatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
 ```
