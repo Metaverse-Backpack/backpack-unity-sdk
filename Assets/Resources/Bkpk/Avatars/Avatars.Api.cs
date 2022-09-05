@@ -7,20 +7,24 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        public static async Task<PaginationResponse<AvatarInfo>> GetAvatars(int page = 1)
+        public static async Task<AvatarInfo[]> GetAvatars()
         {
-            PaginationResponse<AvatarInfo> response = await Client.Get<
-                PaginationResponse<AvatarInfo>
-            >("/avatars?page=" + page);
-            return response;
+            // TODO: This needs to be updated to use a graph endpoint or a paginated endpoint
+            BackpackResponse response = await Client.Get<BackpackResponse>("/backpack/owner");
+            AvatarInfo[] avatars = new AvatarInfo[response.backpackItems.Length];
+            for (int i = 0; i < avatars.Length; i++)
+            {
+                avatars[i] = response.backpackItems[i].metadata;
+            }
+            return avatars;
         }
 
         public static async Task<AvatarInfo> GetDefaultAvatar()
         {
-            PaginationResponse<AvatarInfo> response = await GetAvatars();
-            if (response.results.Length == 0)
+            AvatarInfo[] avatars = await GetAvatars();
+            if (avatars.Length == 0)
                 throw new BkpkException(BkpkErrors.NO_AVATARS);
-            return response.results[0];
+            return avatars[0];
         }
     }
 
@@ -36,11 +40,14 @@ namespace Bkpk
     }
 
     [System.Serializable]
-    public class PaginationResponse<T>
+    public class BackpackItem
     {
-        public T[] results;
-        public int page;
-        public int pageCount;
-        public int total;
+        public AvatarInfo metadata;
+    }
+
+    [System.Serializable]
+    public class BackpackResponse
+    {
+        public BackpackItem[] backpackItems;
     }
 }

@@ -54,7 +54,7 @@ class MyClass : MonoBehaviour {
 ### Manage Avatars
 
 ```csharp
-PaginatedResponse<AvatarInfo> avatars = Bkpk.GetAvatars(1);
+AvatarInfo[] avatars = Bkpk.Avatars.GetAvatars();
 
 Bkpk.AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
 
