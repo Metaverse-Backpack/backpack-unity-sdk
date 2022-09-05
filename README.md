@@ -32,9 +32,9 @@ class MyClass : MonoBehaviour {
     Debug.Log(response.state);
   }
 
-  Init()
+  async Init()
   {
-    string code = Bkpk.Auth.GetActivationCode(OnAuthorized)
+    string code = await Bkpk.Auth.GetActivationCode(OnAuthorized)
   }
 }
 ```
@@ -44,9 +44,9 @@ class MyClass : MonoBehaviour {
 class MyClass : MonoBehaviour {
   ...
 
-  Init()
+  async Init()
   {
-    string code = Bkpk.Auth.RequestAuthorization(OnAuthorized)
+    string code = await Bkpk.Auth.RequestAuthorization(OnAuthorized)
   }
 }
 ```
@@ -54,9 +54,9 @@ class MyClass : MonoBehaviour {
 ### Manage Avatars
 
 ```csharp
-AvatarInfo[] avatars = Bkpk.Avatars.GetAvatars();
+AvatarInfo[] avatars = await Bkpk.Avatars.GetAvatars();
 
-Bkpk.AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
+Bkpk.AvatarInfo avatarInfo = await Bkpk.GetDefaultAvatar();
 
-Bkpk.BkpkAvatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
+Bkpk.BkpkAvatar avatar = await Bkpk.Avatars.LoadAvatar(avatarInfo);
 ```

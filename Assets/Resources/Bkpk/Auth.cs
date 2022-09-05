@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Bkpk
 {
@@ -75,17 +76,16 @@ namespace Bkpk
             ActivationCodeRequest body = new ActivationCodeRequest
             {
                 clientId = Config.ClientID,
-                responseType = Config.ResponseType,
-                scopes = new string[] { "avatars:read", "backpacks:read" },
+                scopes = new string[] { "backpacks:read" },
                 state = _state,
             };
 
-            ActivationCodeResponse response = await Client.Post<ActivationCodeResponse>("/oauth/activation-code", body);
-
+            ActivationCodeResponse response = await Client.Post<ActivationCodeResponse>("/oauth/activation", body);
+            
+            _code = response.activationCode;
+            
             // Start checking to see if authorization code has been linked and authorized
             StartCoroutine(CheckAuthorizationCodeLoop());
-
-            _code = response.code;
 
             return _code;
         }
@@ -101,24 +101,25 @@ namespace Bkpk
             }
         }
 
-         async Task CheckAuthorizationCode()
+        async Task CheckAuthorizationCode()
         {
-            AuthorizationResponse response = await Client.Get<AuthorizationResponse>("/oauth/authorization?clientId=" + Config.ClientID + "&state=" + _state + "&code=" + _code);
-            if (Config.ResponseType == "token" && response.token != null)
+            // TODO: Implement support for token flow here.
+            // TODO: Should also need to pass up client ID in request here.
+            ActivationCodeResponse response = await Client.Get<ActivationCodeResponse>("/oauth/activation/" + _code);
+
+            var t = response.GetType();
+            PropertyInfo p = t.GetProperty("activationCode");
+            if (p == null) return;
+            
+            _authorized = true;
+            
+            AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
             {
-                _authorized = true;
-                AccessToken = response.token;
-            }
-            else if (Config.ResponseType == "code" && response.code != null)
-            {
-                _authorized = true;
-                AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
-                {
-                    code = response.code,
-                    state = _state
-                };
-                _onAuthorizationCode(authorizationCodeResponse);
-            }
+                code = response.authorizationCode,
+                state = _state
+            };
+            
+            _onAuthorizationCode(authorizationCodeResponse);
         }
     }
 
@@ -142,13 +143,7 @@ namespace Bkpk
     [System.Serializable]
     class ActivationCodeResponse
     {
-        public string code;
-    }
-
-    [System.Serializable]
-    class AuthorizationResponse
-    {
-        public string token = null;
-        public string code = null;
+        public string activationCode;
+        public string? authorizationCode;
     }
 }
