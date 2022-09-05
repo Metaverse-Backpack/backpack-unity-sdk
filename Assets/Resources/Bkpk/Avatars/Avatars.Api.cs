@@ -29,19 +29,26 @@ namespace Bkpk
     }
 
     [System.Serializable]
+    public class BoneStructure
+    {
+        public string head;
+    }
+
+    [System.Serializable]
     public class AvatarInfo
     {
-        public string id;
-        public string uri;
-        public string format;
+        public string source;
         public string type;
-        public string provider;
-        public string metadata;
+        public string fileFormat;
+        public string? reference;
+        public string? bodyType;
+        public BoneStructure? boneStructure;
     }
 
     [System.Serializable]
     public class BackpackItem
     {
+        public string id;
         public AvatarInfo metadata;
     }
 

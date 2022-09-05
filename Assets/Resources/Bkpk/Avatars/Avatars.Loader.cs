@@ -7,8 +7,6 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        public static ProviderRegistry Providers = new ProviderRegistry();
-
         static AvatarLoaderModule[] GetFormatRegistry()
         {
             return new AvatarLoaderModule[] { new GlbLoaderModule(), new VrmLoaderModule() };
@@ -17,19 +15,10 @@ namespace Bkpk
         // Get partner module by name, returns null if not found.
         static AvatarLoaderModule GetModule(AvatarInfo avatarInfo)
         {
-            AvatarLoaderModule[] providerModules = Providers.GetModules();
-            foreach (AvatarLoaderModule module in providerModules)
-            {
-                if (module.ModuleName == avatarInfo.provider)
-                {
-                    return module;
-                }
-            }
-
             AvatarLoaderModule[] formatModules = GetFormatRegistry();
             foreach (AvatarLoaderModule module in formatModules)
             {
-                if (module.ModuleName == avatarInfo.format)
+                if (module.ModuleName == avatarInfo.fileFormat)
                 {
                     return module;
                 }

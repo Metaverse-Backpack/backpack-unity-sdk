@@ -1,3 +1,3 @@
-[submodule "Assets/Resources/Bkpk/Resources"]
-	path = Assets/Resources/Bkpk/Resources
+[submodule "Assets/Resources/Bkpk/Resources/UniVRM"]
+	path = Assets/Resources/Bkpk/Resources/UniVRM
 	url = https://github.com/vrm-c/UniVRM

@@ -24,11 +24,9 @@ namespace Bkpk
             GameObject avatarObject = null
         )
         {
-            var result = await Download(avatarInfo.uri);
+            var result = await Download(avatarInfo.source);
 
-            ProcessMetadata(avatarInfo.metadata);
-
-            BkpkAvatar avatar = SpawnAvatar((byte[])result);
+            BkpkAvatar avatar = SpawnAvatar(avatarInfo, (byte[])result);
 
             if (avatarObject != null)
                 avatar.AvatarObject.transform.SetParent(avatarObject.transform);
@@ -41,19 +39,31 @@ namespace Bkpk
         }
 
         // Spawns the avatar into the input gameobject
-        public virtual BkpkAvatar SpawnAvatar(byte[] avatarData)
+        public virtual BkpkAvatar SpawnAvatar(AvatarInfo avatarInfo, byte[] avatarData)
         {
             return null;
         }
 
-        public virtual Avatar HandleRigAvatar()
+        public Avatar HandleRigAvatar(AvatarInfo avatarInfo)
         {
-            return null;
-        }
+            Avatar avatar;
 
-        public virtual void ProcessMetadata(string metadata)
-        {
-            return;
+            switch (avatarInfo.bodyType)
+            {
+                case "humanoid-female":
+                    avatar =
+                        Resources.Load<Avatar>("Bkpk/AnimationFiles/FemaleAnimationTargetV2.fbx")
+                        as Avatar;
+                    break;
+                default:
+                    avatar =
+                        Resources.Load<Avatar>("Bkpk/AnimationFiles/MaleAnimationTargetV2.fbx")
+                        as Avatar;
+                    ;
+                    break;
+            }
+
+            return avatar;
         }
 
         // GLB parsing

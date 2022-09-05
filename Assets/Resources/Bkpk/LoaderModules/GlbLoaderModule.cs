@@ -17,7 +17,7 @@ namespace Bkpk
         }
 
         // Spawns the avatar into the input gameobject
-        public override BkpkAvatar SpawnAvatar(byte[] avatarData)
+        public override BkpkAvatar SpawnAvatar(AvatarInfo avatarInfo, byte[] avatarData)
         {
             BkpkAvatar avatar = new BkpkAvatar();
 
@@ -29,7 +29,7 @@ namespace Bkpk
 
             using (ImporterContext context = new ImporterContext(glb_data))
             {
-                context.InvertAxis = AxisInverted ? Axes.X : Axes.Z;
+                context.InvertAxis = Axes.X;
 
                 RuntimeGltfInstance instance = context.Load();
                 instance.EnableUpdateWhenOffscreen();
@@ -38,7 +38,7 @@ namespace Bkpk
                 avatar.AvatarObject = instance.Root;
 
                 avatar.Animator = avatar.AvatarObject.AddComponent<Animator>();
-                Avatar anim_avatar = HandleRigAvatar();
+                Avatar anim_avatar = HandleRigAvatar(avatarInfo);
                 if (anim_avatar != null)
                     avatar.Animator.avatar = anim_avatar;
                 avatar.Animator.runtimeAnimatorController = AvatarController;
