@@ -56,7 +56,7 @@ class MyClass : MonoBehaviour {
 ```csharp
 AvatarInfo[] avatars = Bkpk.Avatars.GetAvatars();
 
-AvatarInfo avatarInfo = Bkpk.Avatars.GetDefaultAvatar();
+Bkpk.AvatarInfo avatarInfo = Bkpk.GetDefaultAvatar();
 
-Avatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
+Bkpk.BkpkAvatar avatar = Bkpk.Avatars.LoadAvatar(avatarInfo);
 ```
