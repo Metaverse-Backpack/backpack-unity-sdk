@@ -15,10 +15,12 @@ namespace Bkpk
         // Get partner module by name, returns null if not found.
         static AvatarLoaderModule GetModule(AvatarInfo avatarInfo)
         {
+            if (avatarInfo.metadata.fileFormat == null)
+                avatarInfo.metadata.fileFormat = "vrm";
             AvatarLoaderModule[] formatModules = GetFormatRegistry();
             foreach (AvatarLoaderModule module in formatModules)
             {
-                if (module.ModuleName == avatarInfo.fileFormat)
+                if (module.ModuleName == avatarInfo.metadata.fileFormat)
                 {
                     return module;
                 }

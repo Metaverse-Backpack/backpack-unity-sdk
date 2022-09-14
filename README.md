@@ -12,7 +12,7 @@ class MyClass : MonoBehaviour {
     
     // Optional
     Bkpk.BkpkUrl = "https://bkpk.io";
-    Bkpk.BkpkApiUri = "https://api.bkpk.io";
+    Bkpk.BkpkApiUrl = "https://api.bkpk.io";
     Bkpk.WebSdkUrl = "https://jsdelivr.com/...";
   }
 }

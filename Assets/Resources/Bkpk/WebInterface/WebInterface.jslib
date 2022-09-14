@@ -15,12 +15,12 @@ mergeInto(LibraryManager.library, {
               scopes: ['avatars:read']
             })
             if (responseType === "token") {
-              window.unityInstance.SendMessage("BkpkWebInterface", "OnAccessToken", result.token)
+              window.unityInstance.SendMessage("WebInterface", "OnAccessToken", result.token)
             } else if (responseType === "code") {
-              window.unityInstance.SendMessage("BkpkWebInterface", "OnAuthorizationCode", result.code)
+              window.unityInstance.SendMessage("WebInterface", "OnAuthorizationCode", result.code)
             }
           } catch (error) {
-            window.unityInstance.SendMessage("BkpkWebInterface", "OnUserRejected")
+            window.unityInstance.SendMessage("WebInterface", "OnUserRejected")
           }
         }
     }

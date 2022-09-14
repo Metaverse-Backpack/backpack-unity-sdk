@@ -10,7 +10,7 @@ namespace Bkpk
     {
         public static async Task<T> Get<T>(string endpoint, bool authenticated = false)
         {
-            string url = Config.BkpkApiUri + endpoint;
+            string url = Config.BkpkApiUrl + endpoint;
             UnityWebRequest www = UnityWebRequest.Get(url);
 
             if (authenticated)
@@ -28,7 +28,7 @@ namespace Bkpk
 
         public static async Task<T> Post<T>(string endpoint, object data)
         {
-            string url = Config.BkpkApiUri + endpoint;
+            string url = Config.BkpkApiUrl + endpoint;
             UnityWebRequest www = UnityWebRequest.Post(url, "");
             string json = JsonUtility.ToJson(data);
             byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);

@@ -13,16 +13,22 @@ namespace Bkpk
 
     public static class Config
     {
-        static string _bkpkApiUri = "https://api.bkpk.io";
+        static string _bkpkApiUrl = "https://api.bkpk.io";
         static string _clientId = null;
-        static string _responseType = ResponseTypes.Token;
         static string _bkpkUrl = "https://bkpk.io";
-        static string _WebSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
+        static string _webSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
+        static string _ipfsGateway = "https://gateway.ipfs.io";
 
-        public static string BkpkApiUri
+        public static string BkpkApiUrl
         {
-            get { return _bkpkApiUri; }
-            set { _bkpkApiUri = value; }
+            get { return _bkpkApiUrl; }
+            set { _bkpkApiUrl = value; }
+        }
+
+        public static string IpfsGateway
+        {
+            get { return _ipfsGateway; }
+            set { _ipfsGateway = value; }
         }
 
         public static string BkpkUrl
@@ -33,8 +39,8 @@ namespace Bkpk
 
         public static string WebSdkUrl
         {
-            get { return _WebSdkUrl; }
-            set { _WebSdkUrl = value; }
+            get { return _webSdkUrl; }
+            set { _webSdkUrl = value; }
         }
 
         public static string ClientID
@@ -47,12 +53,6 @@ namespace Bkpk
                 return _clientId;
             }
             set { _clientId = value; }
-        }
-
-        public static string ResponseType
-        {
-            get { return _responseType; }
-            set { _responseType = value; }
         }
     }
 }

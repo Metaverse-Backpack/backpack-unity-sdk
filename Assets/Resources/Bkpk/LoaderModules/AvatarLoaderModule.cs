@@ -24,7 +24,7 @@ namespace Bkpk
             GameObject avatarObject = null
         )
         {
-            var result = await Download(avatarInfo.source);
+            var result = await Download(Config.IpfsGateway + "/ipfs/" + avatarInfo.content);
 
             BkpkAvatar avatar = SpawnAvatar(avatarInfo, (byte[])result);
 
@@ -48,7 +48,7 @@ namespace Bkpk
         {
             Avatar avatar;
 
-            switch (avatarInfo.bodyType)
+            switch (avatarInfo.metadata.bodyType)
             {
                 case "humanoid-female":
                     avatar =

@@ -10,13 +10,8 @@ namespace Bkpk
         public static async Task<AvatarInfo[]> GetAvatars()
         {
             // TODO: This needs to be updated to use a graph endpoint or a paginated endpoint
-            BackpackResponse response = await Client.Get<BackpackResponse>("/backpack/owner");
-            AvatarInfo[] avatars = new AvatarInfo[response.backpackItems.Length];
-            for (int i = 0; i < avatars.Length; i++)
-            {
-                avatars[i] = response.backpackItems[i].metadata;
-            }
-            return avatars;
+            BackpackResponse response = await Client.Get<BackpackResponse>("/backpack/owner", true);
+            return response.backpackItems;
         }
 
         public static async Task<AvatarInfo> GetDefaultAvatar()
@@ -35,7 +30,7 @@ namespace Bkpk
     }
 
     [System.Serializable]
-    public class AvatarInfo
+    public class AvatarMetadata
     {
         public string source;
         public string type;
@@ -46,15 +41,16 @@ namespace Bkpk
     }
 
     [System.Serializable]
-    public class BackpackItem
+    public class AvatarInfo
     {
         public string id;
-        public AvatarInfo metadata;
+        public string content;
+        public AvatarMetadata metadata;
     }
 
     [System.Serializable]
     public class BackpackResponse
     {
-        public BackpackItem[] backpackItems;
+        public AvatarInfo[] backpackItems;
     }
 }

@@ -6,30 +6,32 @@ using System.Reflection;
 
 namespace Bkpk
 {
-    public  class Auth : MonoBehaviour
+    public class Auth : MonoBehaviour
     {
-         System.Action<AuthorizationCodeResponse> _onAuthorizationCode = null;
-         string _accessToken = null;
-         string _state = null;
-         string _code = null;
-         bool _authorized = false;
+        System.Action<AuthorizationCodeResponse> _onAuthorizationCode = null;
+        System.Action<string> _onAccessToken = null;
+        string _accessToken = null;
+        string _state = null;
+        string _code = null;
+        bool _authorized = false;
 
-        private static Auth instance;
+        private static Auth _instance;
 
         public static Auth Instance
         {
             get
             {
-                if (instance == null)
+                if (_instance == null)
                 {
-                    instance = new Auth();
+                    GameObject go = new GameObject("Bkpk.Auth");
+                    _instance = go.AddComponent<Auth>();
                 }
-                return instance;
+                return _instance;
             }
         }
 
-
-        private Auth() {
+        void Start()
+        {
             string state = "";
             string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             for (int i = 0; i < 16; i++)
@@ -38,7 +40,6 @@ namespace Bkpk
             }
             _state = state;
         }
-
 
         public string AccessToken
         {
@@ -53,37 +54,69 @@ namespace Bkpk
         }
 
 #if UNITY_WEBGL
-        public  async void RequestAuthorization(System.Action<AuthorizationCodeResponse> onAuthorizationCode)
+        public async void RequestAuthorization(
+            System.Action<AuthorizationCodeResponse> onAuthorizationCode = null
+        )
         {
             _onAuthorizationCode = onAuthorizationCode;
-            BkpkWebInterface.InitializeSDK(Config.ClientId, Config.ResponseType, Config.BkpkUrl, Config.WebSdkUrl, _state);
+            WebInterface.InitializeSDK(
+                Config.ClientID,
+                ResponseTypes.Code,
+                Config.BkpkUrl,
+                Config.BkpkApiUrl,
+                Config.WebSdkUrl,
+                _state
+            );
         }
 
-        public  async void OnAuthorizationCode(string code)
+        public async void RequestAuthorization(System.Action<string> onAuthorized)
+        {
+            _onAccessToken = onAuthorized;
+            WebInterface.InitializeSDK(
+                Config.ClientID,
+                ResponseTypes.Token,
+                Config.BkpkUrl,
+                Config.WebSdkUrl,
+                _state
+            );
+        }
+
+        public void OnAccessToken(string token)
+        {
+            AccessToken = token;
+            _onAccessToken(token);
+        }
+
+        public void OnAuthorizationCode(string code)
         {
             AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
             {
-                code = response.code;
-                state = _state;
+                code = code,
+                state = _state
             };
             _onAuthorizationCode(authorizationCodeResponse);
         }
 #endif
 
-        public async Task<string> GetActivationCode(System.Action<AuthorizationCodeResponse> onAuthorizationCode)
+        public async Task<string> GetActivationCode(
+            System.Action<AuthorizationCodeResponse> onAuthorizationCode
+        )
         {
             _onAuthorizationCode = onAuthorizationCode;
             ActivationCodeRequest body = new ActivationCodeRequest
             {
                 clientId = Config.ClientID,
-                scopes = new string[] { "backpacks:read" },
+                scopes = new string[] { "avatars:read" },
                 state = _state,
             };
 
-            ActivationCodeResponse response = await Client.Post<ActivationCodeResponse>("/oauth/activation", body);
-            
+            ActivationCodeResponse response = await Client.Post<ActivationCodeResponse>(
+                "/oauth/activation",
+                body
+            );
+
             _code = response.activationCode;
-            
+
             // Start checking to see if authorization code has been linked and authorized
             StartCoroutine(CheckAuthorizationCodeLoop());
 
@@ -105,20 +138,23 @@ namespace Bkpk
         {
             // TODO: Implement support for token flow here.
             // TODO: Should also need to pass up client ID in request here.
-            ActivationCodeResponse response = await Client.Get<ActivationCodeResponse>("/oauth/activation/" + _code);
+            ActivationCodeResponse response = await Client.Get<ActivationCodeResponse>(
+                "/oauth/activation/" + _code
+            );
 
             var t = response.GetType();
             PropertyInfo p = t.GetProperty("activationCode");
-            if (p == null) return;
-            
+            if (p == null)
+                return;
+
             _authorized = true;
-            
+
             AuthorizationCodeResponse authorizationCodeResponse = new AuthorizationCodeResponse
             {
                 code = response.authorizationCode,
                 state = _state
             };
-            
+
             _onAuthorizationCode(authorizationCodeResponse);
         }
     }
@@ -138,7 +174,6 @@ namespace Bkpk
         public string[] scopes;
         public string state;
     }
-
 
     [System.Serializable]
     class ActivationCodeResponse
