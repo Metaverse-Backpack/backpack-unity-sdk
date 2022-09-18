@@ -35,5 +35,6 @@ namespace Bkpk
 
         // API Errors
         public static string NO_AVATARS = "No available avatars for this user";
+        public static string INVALID_FILE_FORMAT = "The provided file format is not valid";
     }
 }

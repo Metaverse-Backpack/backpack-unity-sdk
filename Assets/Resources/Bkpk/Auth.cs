@@ -9,7 +9,7 @@ namespace Bkpk
     public class Auth : MonoBehaviour
     {
         System.Action<AuthorizationCodeResponse> _onAuthorizationCode = null;
-        System.Action<string> _onAccessToken = null;
+        System.Action<string?> _onAccessToken = null;
         string _accessToken = null;
         string _state = null;
         string _code = null;
@@ -69,7 +69,7 @@ namespace Bkpk
             );
         }
 
-        public async void RequestAuthorization(System.Action<string> onAuthorized)
+        public async void RequestAuthorization(System.Action<string?> onAuthorized)
         {
             _onAccessToken = onAuthorized;
             WebInterface.InitializeSDK(
