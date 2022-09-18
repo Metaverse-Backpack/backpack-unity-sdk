@@ -13,10 +13,11 @@ namespace Bkpk
 
     public static class Config
     {
-        static string _bkpkApiUrl = "https://api.bkpk.io";
+        static string _bkpkApiUrl = "https://backend.metabag.dev";
         static string _clientId = null;
-        static string _bkpkUrl = "https://bkpk.io";
-        static string _webSdkUrl = "https://cdn.jsdelivr.net/npm/@bkpk/sdk/dist/index.js";
+        static string _bkpkUrl = "https://frontend.metabag.dev";
+        static string _webSdkUrl =
+            "https://cdn.jsdelivr.net/npm/@metaverse-backpack/backpack-js-sdk@0.0.2/dist/index.min.js";
         static string _ipfsGateway = "https://gateway.ipfs.io";
 
         public static string BkpkApiUrl

@@ -6,6 +6,8 @@ namespace Bkpk
 {
     public class WebInterface : MonoBehaviour
     {
+        private bool _popupOpen = false;
+
         [DllImport("__Internal")]
         public static extern void InitializeSDK(
             string clientId,
@@ -31,18 +33,34 @@ namespace Bkpk
             }
         }
 
+        public void StartAuthentication(string responseType, string state)
+        {
+            InitializeSDK(
+                Config.ClientID,
+                responseType,
+                Config.BkpkUrl,
+                Config.BkpkApiUrl,
+                Config.WebSdkUrl,
+                state
+            );
+            _popupOpen = true;
+        }
+
         void OnAccessToken(string accessToken)
         {
             Auth.Instance.OnAccessToken(accessToken);
+            _popupOpen = false;
         }
 
         void OnAuthorizationCode(string authorizationCode)
         {
             Auth.Instance.OnAuthorizationCode(authorizationCode);
+            _popupOpen = false;
         }
 
         void OnUserRejected()
         {
+            _popupOpen = false;
             throw new BkpkException(BkpkErrors.USER_REJECTED);
         }
     }

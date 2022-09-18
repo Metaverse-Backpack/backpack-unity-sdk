@@ -74,11 +74,16 @@ namespace Bkpk
             BkpkAvatar avatar = new BkpkAvatar(instance, target);
 
             avatar.Animator = avatarGo.GetComponent<Animator>();
+            if (avatar.Animator == null)
+            {
+                avatar.Animator = avatarGo.AddComponent<Animator>();
+            }
             Avatar anim_avatar = HandleRigAvatar(avatarInfo);
 
             if (anim_avatar != null)
                 avatar.Animator.avatar = anim_avatar;
             avatar.Animator.runtimeAnimatorController = AvatarController;
+            avatar.Animator.applyRootMotion = true;
 
             return avatar;
         }
@@ -112,19 +117,19 @@ namespace Bkpk
             GameObject target
         )
         {
-            var size = bytes != null ? bytes.Length : 0;
+            RuntimeGltfInstance instance = null;
             switch (avatarInfo.metadata.fileFormat)
             {
                 case "gltf":
                 case "glb":
                 case "zip":
                 {
-                    var instance = await GltfUtility.LoadAsync(
-                        uri,
-                        new ImmediateCaller(),
-                        new GltfMaterialDescriptorGenerator()
-                    );
-                    return GetModel(avatarInfo, instance, target);
+                    GltfData data = new GlbBinaryParser(bytes, uri).Parse();
+                    using (UniGLTF.ImporterContext context = new UniGLTF.ImporterContext(data))
+                    {
+                        context.InvertAxis = Axes.X;
+                        instance = context.Load();
+                    }
                     break;
                 }
 
@@ -134,19 +139,21 @@ namespace Bkpk
                         VRM.glTF_VRM_extensions vrm
                     ) => new VRM.VRMMaterialDescriptorGenerator(vrm);
 
-                    var instance = await VrmUtility.LoadBytesAsync(
+                    instance = await VrmUtility.LoadBytesAsync(
                         uri,
                         bytes,
                         new ImmediateCaller(),
                         materialCallback,
                         loadAnimation: true
                     );
-                    return GetModel(avatarInfo, instance, target);
                     break;
                 }
             }
 
-            throw new BkpkException(BkpkErrors.INVALID_FILE_FORMAT);
+            if (instance == null)
+                throw new BkpkException(BkpkErrors.INVALID_FILE_FORMAT);
+
+            return GetModel(avatarInfo, instance, target);
         }
 
         public static async Task<BkpkAvatar> LoadAvatar(

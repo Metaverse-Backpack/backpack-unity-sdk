@@ -59,26 +59,13 @@ namespace Bkpk
         )
         {
             _onAuthorizationCode = onAuthorizationCode;
-            WebInterface.InitializeSDK(
-                Config.ClientID,
-                ResponseTypes.Code,
-                Config.BkpkUrl,
-                Config.BkpkApiUrl,
-                Config.WebSdkUrl,
-                _state
-            );
+            WebInterface.Instance.StartAuthentication(ResponseTypes.Code, _state);
         }
 
         public async void RequestAuthorization(System.Action<string?> onAuthorized)
         {
             _onAccessToken = onAuthorized;
-            WebInterface.InitializeSDK(
-                Config.ClientID,
-                ResponseTypes.Token,
-                Config.BkpkUrl,
-                Config.WebSdkUrl,
-                _state
-            );
+            WebInterface.Instance.StartAuthentication(ResponseTypes.Token, _state);
         }
 
         public void OnAccessToken(string token)

@@ -16,6 +16,7 @@ namespace Bkpk
     public class BkpkAvatar : IDisposable
     {
         public Animator Animator;
+        public GameObject gameObject;
         RuntimeGltfInstance _instance;
         HumanPoseTransfer _pose;
         VRMBlendShapeProxy m_proxy;
@@ -23,12 +24,13 @@ namespace Bkpk
         public BkpkAvatar(RuntimeGltfInstance instance, GameObject target = null)
         {
             _instance = instance;
+            gameObject = instance.gameObject;
 
             var lookAt = instance.GetComponent<VRMLookAtHead>();
             if (lookAt != null)
             {
                 // vrm
-                _pose = _instance.gameObject.AddComponent<HumanPoseTransfer>();
+                _pose = gameObject.AddComponent<HumanPoseTransfer>();
                 _pose.Source = GameObject.FindObjectOfType<HumanPoseTransfer>();
                 _pose.SourceType = HumanPoseTransfer.HumanPoseTransferSourceType.HumanPoseTransfer;
 
@@ -49,7 +51,7 @@ namespace Bkpk
         public void Dispose()
         {
             // Destroy game object. not RuntimeGltfInstance
-            GameObject.Destroy(_instance.gameObject);
+            GameObject.Destroy(gameObject);
         }
 
         public void EnableTPose(HumanPoseClip pose)
