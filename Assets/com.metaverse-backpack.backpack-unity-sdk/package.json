@@ -31,7 +31,7 @@
     {
       "displayName": "Simple WebGL Loader",
       "description": "Contains a simple game object that authenticates with Backpack and loads the user's default avatar",
-      "path": "Samples/SimpleLoader"
+      "path": "Samples~/SimpleLoader"
     }
   ]
 }
