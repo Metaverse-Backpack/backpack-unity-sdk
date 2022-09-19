@@ -93,8 +93,6 @@ namespace Bkpk
             }
             Avatar anim_avatar = HandleRigAvatar(avatarInfo);
 
-            Debug.Log(anim_avatar);
-
             if (anim_avatar != null)
                 avatar.Animator.avatar = anim_avatar;
 
