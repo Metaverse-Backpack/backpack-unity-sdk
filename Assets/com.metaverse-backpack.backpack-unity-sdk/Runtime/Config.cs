@@ -17,7 +17,7 @@ namespace Bkpk
         static string _clientId = null;
         static string _bkpkUrl = "https://frontend.metabag.dev";
         static string _webSdkUrl =
-            "https://cdn.jsdelivr.net/npm/@metaverse-backpack/backpack-js-sdk@0.0.2/dist/index.min.js";
+            "https://cdn.jsdelivr.net/npm/@metaverse-backpack/backpack-js-sdk@0.0.3/dist/index.min.js";
         static string _ipfsGateway = "https://gateway.ipfs.io";
 
         public static string BkpkApiUrl
