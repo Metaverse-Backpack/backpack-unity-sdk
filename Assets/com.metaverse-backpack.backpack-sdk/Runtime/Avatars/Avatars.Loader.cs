@@ -20,9 +20,16 @@ namespace Bkpk
                 "MetaverseBackpack/Controllers/GenericCharacter"
             );
 
-        public static Avatars MaleAnimationTarget = Resources.Load<Avatar>(
-                        "MetaverseBackpack/AnimationTargets/FemaleAnimationTargetV2"
-                    );
+        public static Avatar MaleAnimationTarget =
+            Resources.Load<Avatar>(
+                "MetaverseBackpack/AnimationTargets/MaleAnimationTargetV2"
+            );
+
+        public static Avatar FemaleAnimationTarget =
+            Resources.Load<Avatar>(
+                "MetaverseBackpack/AnimationTargets/FemaleAnimationTarget"
+            );
+                
 
         public static bool IsValidUrl(string url)
         {
@@ -86,14 +93,13 @@ namespace Bkpk
             }
             Avatar anim_avatar = HandleRigAvatar(avatarInfo);
 
+            Debug.Log(anim_avatar);
+
             if (anim_avatar != null)
                 avatar.Animator.avatar = anim_avatar;
 
             avatar.Animator.runtimeAnimatorController = GenericController;
             avatar.Animator.applyRootMotion = true;
-
-            Debug.Log(avatar.Animator.runtimeAnimatorController);
-            Debug.Log(anim_avatar);
 
             return avatar;
         }
