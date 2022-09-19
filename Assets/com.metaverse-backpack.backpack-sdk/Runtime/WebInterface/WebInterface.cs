@@ -35,6 +35,8 @@ namespace Bkpk
 
         public void StartAuthentication(string responseType, string state)
         {
+            if (_popupOpen)
+                return;
             InitializeSDK(
                 Config.ClientID,
                 responseType,

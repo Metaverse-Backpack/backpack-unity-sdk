@@ -1,0 +1,37 @@
+{
+  "name": "com.metaverse-backpack.unity-sdk",
+  "version": "0.0.1",
+  "displayName": "Metaverse Backpack SDK",
+  "description": "Load Avatars from your Metaverse Backpack using the Unity SDK",
+  "unity": "2020.1",
+  "documentationUrl": "https://metabag.dev/",
+  "dependencies": {
+    "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.103.2",
+    "com.vrmc.univrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.103.2",
+    "com.vrmc.vrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.103.2",
+    "com.vrmc.vrmshaders": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.103.2",
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.unitywebrequestwww": "1.0.0"
+ },
+ "keywords": [
+    "metaverse",
+    "protocol labs",
+    "nft",
+    "avatar",
+    "vrm",
+    "backpack"
+  ],
+  "author": {
+    "name": "Protocol Labs",
+    "email": "alex.patin@protocol.ai",
+    "url": "https://metabag.dev"
+  },
+  "samples": [
+    {
+      "displayName": "Simple WebGL Loader",
+      "description": "Contains a simple game object that authenticates with Backpack and loads the user's default avatar",
+      "path": "Samples/SimpleLoader"
+    }
+  ]
+}

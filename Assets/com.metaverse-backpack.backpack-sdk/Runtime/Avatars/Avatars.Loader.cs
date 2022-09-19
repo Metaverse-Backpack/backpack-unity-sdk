@@ -15,8 +15,14 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
-        public static RuntimeAnimatorController AvatarController =
-            Resources.Load("Bkpk/AnimationFiles/GenericCharacter") as RuntimeAnimatorController;
+        public static RuntimeAnimatorController GenericController =
+            Resources.Load<RuntimeAnimatorController>(
+                "MetaverseBackpack/Controllers/GenericCharacter"
+            );
+
+        public static Avatars MaleAnimationTarget = Resources.Load<Avatar>(
+                        "MetaverseBackpack/AnimationTargets/FemaleAnimationTargetV2"
+                    );
 
         public static bool IsValidUrl(string url)
         {
@@ -82,32 +88,25 @@ namespace Bkpk
 
             if (anim_avatar != null)
                 avatar.Animator.avatar = anim_avatar;
-            avatar.Animator.runtimeAnimatorController = AvatarController;
+
+            avatar.Animator.runtimeAnimatorController = GenericController;
             avatar.Animator.applyRootMotion = true;
+
+            Debug.Log(avatar.Animator.runtimeAnimatorController);
+            Debug.Log(anim_avatar);
 
             return avatar;
         }
 
         static Avatar HandleRigAvatar(AvatarInfo avatarInfo)
         {
-            Avatar avatar;
-
             switch (avatarInfo.metadata.bodyType)
             {
                 case "humanoid-female":
-                    avatar =
-                        Resources.Load<Avatar>("Bkpk/AnimationFiles/FemaleAnimationTargetV2.fbx")
-                        as Avatar;
-                    break;
+                    return FemaleAnimationTarget;
                 default:
-                    avatar =
-                        Resources.Load<Avatar>("Bkpk/AnimationFiles/MaleAnimationTargetV2.fbx")
-                        as Avatar;
-                    ;
-                    break;
+                    return MaleAnimationTarget;
             }
-
-            return avatar;
         }
 
         static async Task<BkpkAvatar> LoadModelAsync(

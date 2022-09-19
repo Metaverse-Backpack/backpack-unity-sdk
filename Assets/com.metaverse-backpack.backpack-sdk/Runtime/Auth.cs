@@ -9,13 +9,13 @@ namespace Bkpk
     public class Auth : MonoBehaviour
     {
         System.Action<AuthorizationCodeResponse> _onAuthorizationCode = null;
-        System.Action<string?> _onAccessToken = null;
+        System.Action<string> _onAccessToken = null;
         string _accessToken = null;
         string _state = null;
         string _code = null;
         bool _authorized = false;
 
-        private static Auth _instance;
+        private static Auth _instance = null;
 
         public static Auth Instance
         {
@@ -54,7 +54,7 @@ namespace Bkpk
         }
 
 #if UNITY_WEBGL
-        public async void RequestAuthorization(
+        public void RequestAuthorization(
             System.Action<AuthorizationCodeResponse> onAuthorizationCode = null
         )
         {
@@ -62,7 +62,7 @@ namespace Bkpk
             WebInterface.Instance.StartAuthentication(ResponseTypes.Code, _state);
         }
 
-        public async void RequestAuthorization(System.Action<string?> onAuthorized)
+        public void RequestAuthorization(System.Action<string> onAuthorized)
         {
             _onAccessToken = onAuthorized;
             WebInterface.Instance.StartAuthentication(ResponseTypes.Token, _state);
@@ -166,6 +166,6 @@ namespace Bkpk
     class ActivationCodeResponse
     {
         public string activationCode;
-        public string? authorizationCode;
+        public string authorizationCode = null;
     }
 }

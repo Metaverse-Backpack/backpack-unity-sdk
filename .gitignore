@@ -37,7 +37,6 @@ sysinfo.txt
 *.aab
 *.unitypackage
 *.app
-*.meta
 
 Assets/Resources/Bkpk/Resources
 Assets/Scenes

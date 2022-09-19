@@ -35,9 +35,9 @@ namespace Bkpk
         public string source;
         public string type;
         public string fileFormat;
-        public string? reference;
-        public string? bodyType;
-        public BoneStructure? boneStructure;
+        public string reference = null;
+        public string bodyType = null;
+        public BoneStructure boneStructure = null;
     }
 
     [System.Serializable]

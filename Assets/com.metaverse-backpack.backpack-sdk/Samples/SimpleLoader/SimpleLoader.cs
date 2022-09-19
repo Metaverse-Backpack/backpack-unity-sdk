@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BkpkExample
+namespace SimpleLoader
 {
-    public partial class BkpkExample : MonoBehaviour
+    public class SimpleLoader : MonoBehaviour
     {
         bool Initialized = false;
 
@@ -16,8 +16,8 @@ namespace BkpkExample
             Bkpk.Config.BkpkUrl = "http://localhost:8080";
             Bkpk.Config.ClientID = "20a3c6c5-0dbd-407e-9e54-d0d5cd31a6cf";
             Bkpk.Config.IpfsGateway = "https://ipfs.mona.gallery";
-            // Bkpk.Auth.Instance.RequestAuthorization(OnAuthorized);
 
+            // Bkpk.Auth.Instance.RequestAuthorization(OnAuthorized);
             OnAuthorized("XXX");
         }
 
@@ -46,6 +46,7 @@ namespace BkpkExample
                 {
                     source = "XXX",
                     fileFormat = "vrm",
+                    bodyType = "humanoid",
                     type = "humanoid"
                 }
             };
@@ -58,18 +59,19 @@ namespace BkpkExample
                 {
                     source = "XXX",
                     fileFormat = "vrm",
+                    bodyType = "humanoid",
                     type = "humanoid"
                 }
             };
 
-            await Bkpk.Avatars.LoadAvatar(ca);
+            await Bkpk.Avatars.LoadAvatar(meebits);
         }
 
         void Update()
         {
             if (Input.GetMouseButton(0) && !Initialized)
             {
-                Bkpk.Auth.Instance.RequestAuthorization(OnAuthorized);
+                // Bkpk.Auth.Instance.RequestAuthorization(OnAuthorized);
                 Initialized = true;
             }
         }
