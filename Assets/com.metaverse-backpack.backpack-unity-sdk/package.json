@@ -6,13 +6,12 @@
   "unity": "2020.1",
   "documentationUrl": "https://metabag.dev/",
   "dependencies": {
-    "com.vrmc.gltf": "https://github.com/vrm-c/UniVRM.git?path=/Assets/UniGLTF#v0.103.2",
-    "com.vrmc.univrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM#v0.103.2",
-    "com.vrmc.vrm": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRM10#v0.103.2",
-    "com.vrmc.vrmshaders": "https://github.com/vrm-c/UniVRM.git?path=/Assets/VRMShaders#v0.103.2",
     "com.unity.modules.jsonserialize": "1.0.0",
     "com.unity.modules.unitywebrequest": "1.0.0",
-    "com.unity.modules.unitywebrequestwww": "1.0.0"
+    "com.unity.modules.unitywebrequestwww": "1.0.0",
+    "com.unity.modules.imageconversion": "1.0.0",
+    "com.unity.ugui": "1.0.0",
+    "com.unity.modules.animation": "1.0.0"
  },
  "keywords": [
     "metaverse",
