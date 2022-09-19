@@ -9,11 +9,6 @@ namespace SimpleLoader
     {
         bool Initialized = false;
 
-        void Start()
-        {
-            Bkpk.Auth.Instance.RequestAuthorization(OnAuthorized);
-        }
-
         async void OnAuthorized(string token)
         {
             Bkpk.AvatarInfo avatar = await Bkpk.Avatars.GetDefaultAvatar();

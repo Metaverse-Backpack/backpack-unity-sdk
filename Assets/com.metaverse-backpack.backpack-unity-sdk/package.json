@@ -1,6 +1,6 @@
 {
-  "name": "com.metaverse-backpack.unity-sdk",
-  "version": "0.0.1",
+  "name": "com.metaverse-backpack.backpack-unity-sdk",
+  "version": "0.0.2",
   "displayName": "Metaverse Backpack SDK",
   "description": "Load Avatars from your Metaverse Backpack using the Unity SDK",
   "unity": "2020.1",
