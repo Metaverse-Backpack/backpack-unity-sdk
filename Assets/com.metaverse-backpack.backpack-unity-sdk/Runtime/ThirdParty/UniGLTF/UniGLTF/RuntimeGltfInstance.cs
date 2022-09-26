@@ -25,7 +25,8 @@ namespace UniGLTF
         /// <summary>
         /// Transform states on load.
         /// </summary>
-        public IReadOnlyDictionary<Transform, TransformState> InitialTransformStates => _initialTransformStates;
+        public IReadOnlyDictionary<Transform, TransformState> InitialTransformStates =>
+            _initialTransformStates;
 
         /// <summary>
         /// Runtime resources.
@@ -78,15 +79,18 @@ namespace UniGLTF
         public IList<Renderer> VisibleRenderers => _visibleRenderers;
 
         private readonly List<Transform> _nodes = new List<Transform>();
-        private readonly Dictionary<Transform, TransformState> _initialTransformStates = new Dictionary<Transform, TransformState>();
-        private readonly List<(SubAssetKey, UnityEngine.Object)> _resources = new List<(SubAssetKey, UnityEngine.Object)>();
+        private readonly Dictionary<Transform, TransformState> _initialTransformStates =
+            new Dictionary<Transform, TransformState>();
+        private readonly List<(SubAssetKey, UnityEngine.Object)> _resources =
+            new List<(SubAssetKey, UnityEngine.Object)>();
         private readonly List<Material> _materials = new List<Material>();
         private readonly List<Texture> _textures = new List<Texture>();
         private readonly List<AnimationClip> _animationClips = new List<AnimationClip>();
         private readonly List<Mesh> _meshes = new List<Mesh>();
         private readonly List<Renderer> _renderers = new List<Renderer>();
         private readonly List<MeshRenderer> _meshRenderers = new List<MeshRenderer>();
-        private readonly List<SkinnedMeshRenderer> _skinnedMeshRenderers = new List<SkinnedMeshRenderer>();
+        private readonly List<SkinnedMeshRenderer> _skinnedMeshRenderers =
+            new List<SkinnedMeshRenderer>();
 
         private readonly List<Renderer> _visibleRenderers = new List<Renderer>();
 
@@ -101,29 +105,31 @@ namespace UniGLTF
                 loaded._initialTransformStates.Add(node, new TransformState(node));
             }
 
-            context.TransferOwnership((k, o) =>
-            {
-                if (o == null) return;
-
-                loaded._resources.Add((k, o));
-
-
-                switch (o)
+            context.TransferOwnership(
+                (k, o) =>
                 {
-                    case Material material:
-                        loaded._materials.Add(material);
-                        break;
-                    case Texture texture:
-                        loaded._textures.Add(texture);
-                        break;
-                    case AnimationClip animationClip:
-                        loaded._animationClips.Add(animationClip);
-                        break;
-                    case Mesh mesh:
-                        loaded._meshes.Add(mesh);
-                        break;
+                    if (o == null)
+                        return;
+
+                    loaded._resources.Add((k, o));
+
+                    switch (o)
+                    {
+                        case Material material:
+                            loaded._materials.Add(material);
+                            break;
+                        case Texture texture:
+                            loaded._textures.Add(texture);
+                            break;
+                        case AnimationClip animationClip:
+                            loaded._animationClips.Add(animationClip);
+                            break;
+                        case Mesh mesh:
+                            loaded._meshes.Add(mesh);
+                            break;
+                    }
                 }
-            });
+            );
 
             foreach (var renderer in go.GetComponentsInChildren<Renderer>())
             {
@@ -168,7 +174,6 @@ namespace UniGLTF
 
         void OnDestroy()
         {
-            Debug.Log("UnityResourceDestroyer.OnDestroy");
             foreach (var (_, obj) in _resources)
             {
                 UnityObjectDestoyer.DestroyRuntimeOrEditor(obj);

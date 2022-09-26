@@ -20,16 +20,13 @@ namespace Bkpk
                 "MetaverseBackpack/Controllers/GenericCharacter"
             );
 
-        public static Avatar MaleAnimationTarget =
-            Resources.Load<Avatar>(
-                "MetaverseBackpack/AnimationTargets/MaleAnimationTargetV2"
-            );
+        public static Avatar MaleAnimationTarget = Resources.Load<Avatar>(
+            "MetaverseBackpack/AnimationTargets/MasculineAnimationAvatar"
+        );
 
-        public static Avatar FemaleAnimationTarget =
-            Resources.Load<Avatar>(
-                "MetaverseBackpack/AnimationTargets/FemaleAnimationTarget"
-            );
-                
+        public static Avatar FemaleAnimationTarget = Resources.Load<Avatar>(
+            "MetaverseBackpack/AnimationTargets/FeminineAnimationAvatar"
+        );
 
         public static bool IsValidUrl(string url)
         {
@@ -91,7 +88,7 @@ namespace Bkpk
             {
                 avatar.Animator = avatarGo.AddComponent<Animator>();
             }
-            Avatar anim_avatar = HandleRigAvatar(avatarInfo);
+            Avatar anim_avatar = GetAvatarRig(avatarInfo);
 
             if (anim_avatar != null)
                 avatar.Animator.avatar = anim_avatar;
@@ -102,8 +99,10 @@ namespace Bkpk
             return avatar;
         }
 
-        static Avatar HandleRigAvatar(AvatarInfo avatarInfo)
+        static Avatar GetAvatarRig(AvatarInfo avatarInfo)
         {
+            if (!avatarInfo.metadata.fileFormat.Equals("glb"))
+                return null;
             switch (avatarInfo.metadata.bodyType)
             {
                 case "humanoid-female":
