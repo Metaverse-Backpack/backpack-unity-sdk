@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using UniGLTF;
+using Siccity.GLTFUtility;
 using UniHumanoid;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,6 +16,9 @@ namespace Bkpk
 {
     public static partial class Avatars
     {
+        private const string BONE_HIPS = "Hips";
+        private const string BONE_ARMATURE = "Armature";
+
         public static RuntimeAnimatorController GenericController =
             Resources.Load<RuntimeAnimatorController>(
                 "MetaverseBackpack/Controllers/GenericCharacter"
@@ -69,7 +73,37 @@ namespace Bkpk
             return request.downloadHandler.data;
         }
 
-        static BkpkAvatar GetModel(
+        static BkpkAvatar GetGlbModel(AvatarInfo avatarInfo, GameObject avatarGo, GameObject target)
+        {
+            if (!avatarGo.transform.Find(BONE_ARMATURE))
+            {
+                var armature = new GameObject();
+                armature.name = BONE_ARMATURE;
+                armature.transform.parent = avatarGo.transform;
+
+                Transform hips = avatarGo.transform.Find(BONE_HIPS);
+                hips.parent = armature.transform;
+            }
+
+            BkpkAvatar avatar = new BkpkAvatar(avatarGo, target);
+
+            avatar.Animator = avatarGo.GetComponent<Animator>();
+            if (avatar.Animator == null)
+            {
+                avatar.Animator = avatarGo.AddComponent<Animator>();
+            }
+            Avatar anim_avatar = GetAvatarRig(avatarInfo);
+
+            if (anim_avatar != null)
+                avatar.Animator.avatar = anim_avatar;
+
+            avatar.Animator.runtimeAnimatorController = GenericController;
+            avatar.Animator.applyRootMotion = true;
+
+            return avatar;
+        }
+
+        static BkpkAvatar GetVrmModel(
             AvatarInfo avatarInfo,
             RuntimeGltfInstance instance,
             GameObject target
@@ -126,13 +160,8 @@ namespace Bkpk
                 case "glb":
                 case "zip":
                 {
-                    GltfData data = new GlbBinaryParser(bytes, uri).Parse();
-                    using (UniGLTF.ImporterContext context = new UniGLTF.ImporterContext(data))
-                    {
-                        context.InvertAxis = Axes.X;
-                        instance = context.Load();
-                    }
-                    break;
+                    var avatar = Importer.LoadFromBytes(bytes, new ImportSettings());
+                    return GetGlbModel(avatarInfo, avatar, target);
                 }
 
                 case "vrm":
@@ -148,14 +177,11 @@ namespace Bkpk
                         materialCallback,
                         loadAnimation: true
                     );
-                    break;
+                    return GetVrmModel(avatarInfo, instance, target);
                 }
             }
 
-            if (instance == null)
-                throw new BkpkException(BkpkErrors.INVALID_FILE_FORMAT);
-
-            return GetModel(avatarInfo, instance, target);
+            throw new BkpkException(BkpkErrors.INVALID_FILE_FORMAT);
         }
 
         public static async Task<BkpkAvatar> LoadAvatar(

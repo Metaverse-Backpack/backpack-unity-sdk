@@ -48,6 +48,18 @@ namespace Bkpk
             }
         }
 
+        public BkpkAvatar(GameObject avatar, GameObject target = null)
+        {
+            gameObject = avatar;
+
+            // not vrm
+            var animation = avatar.GetComponent<Animation>();
+            if (animation && animation.clip != null)
+            {
+                animation.Play(animation.clip.name);
+            }
+        }
+
         public void Dispose()
         {
             // Destroy game object. not RuntimeGltfInstance
